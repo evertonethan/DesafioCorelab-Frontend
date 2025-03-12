@@ -12,7 +12,7 @@ Frontend do desafio Corelab Challenge - Uma aplicação de gerenciamento de tare
 
 A interface é responsiva e visualmente atraente, permitindo aos usuários filtrar por itens favoritos e por cor, exibindo os favoritos sempre no topo da lista.
 
-## Video Demostração
+## Video Demonstração
 
 https://www.awesomescreenshot.com/video/37555107?key=224a84eed7f6888f236b2e68cb7cf9c8
 
