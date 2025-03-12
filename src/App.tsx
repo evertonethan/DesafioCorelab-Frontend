@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import axios from 'axios';
 import { FaStar, FaRegStar, FaTrashAlt, FaPalette, FaPlus, FaSearch, FaTimes, FaPencilAlt } from 'react-icons/fa';
 import './App.scss';
@@ -113,11 +113,17 @@ function App() {
     }
   };
 
-  const updateNote = async (note: Note) => {
+  const updateNote = async (note: Note, debounced = true) => {
     try {
-      await axios.put(`http://localhost:3001/api/notes/${note.id}`, note);
-      // Atualiza a lista local
-      setNotes((prev) => prev.map((n) => (n.id === note.id ? note : n)));
+      // Se for chamada debounced, atualiza apenas o estado local
+      // A atualização real no backend será feita pelo useEffect com debounce
+      if (debounced) {
+        setNotes((prev) => prev.map((n) => (n.id === note.id ? note : n)));
+      } else {
+        await axios.put(`http://localhost:3001/api/notes/${note.id}`, note);
+        // Atualiza a lista local
+        setNotes((prev) => prev.map((n) => (n.id === note.id ? note : n)));
+      }
     } catch (error) {
       console.error('Erro ao atualizar nota:', error);
       setErrorMessage('Não foi possível atualizar a nota. Tente novamente.');
