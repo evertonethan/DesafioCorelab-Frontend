@@ -237,7 +237,14 @@ function App() {
       {/* Navbar com título e busca */}
       <nav className="navbar">
         <div className="navbar-content">
-          <h1 className="logo"><span>Core</span>Notes</h1>
+          <div className="logo-container">
+            <img
+              src="/1b27213540f22b3bda3ab0125bf1fd2f.png"
+              alt="Logo"
+              className="navbar-logo-image"
+            />
+            <h1 className="logo"><span>Core</span>Notes</h1>
+          </div>
           <div className="search-container">
             <FaSearch className="search-icon" />
             <input
