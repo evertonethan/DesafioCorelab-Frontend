@@ -400,7 +400,6 @@ body {
         padding: 12px 16px;
         border-bottom: 1px solid rgba(0, 0, 0, 0.05);
         position: relative;
-        /* Garante posicionamento correto para tooltips */
 
         input {
             flex-grow: 1;
@@ -433,17 +432,31 @@ body {
             justify-content: center;
             transition: transform $transition-speed;
             position: relative;
-            /* Importante para o posicionamento do tooltip */
 
             &:hover {
                 transform: scale(1.2);
             }
 
-            /* Ajustes específicos para o tooltip deste botão */
+            /* Ajuste específico para o tooltip do botão de favorito */
             &[data-tooltip]:before,
             &[data-tooltip]:after {
-                transform: translateX(-25%);
-                /* Ajustando para melhor posicionamento */
+                bottom: auto;
+                top: 100%;
+                left: auto;
+                right: 0;
+                transform: none;
+                margin-top: 10px;
+            }
+
+            &[data-tooltip]:after {
+                content: '';
+                border: none;
+                border-right: 8px solid transparent;
+                border-left: 8px solid transparent;
+                border-bottom: 8px solid rgba(0, 0, 0, 0.85);
+                border-top: none;
+                top: 100%;
+                margin-top: 2px;
             }
         }
     }
@@ -496,12 +509,27 @@ body {
         padding: 12px 16px;
         border-top: 1px solid rgba(0, 0, 0, 0.05);
         position: relative;
-        /* Garante posicionamento correto para tooltips */
 
         .actions-group {
             display: flex;
             gap: 12px;
             align-items: center;
+            position: relative;
+        }
+
+        /* Específico para o tooltip do botão de edição */
+        .edit-button[data-tooltip]:before,
+        .edit-button[data-tooltip]:after {
+            left: 0;
+            transform: translateX(0);
+        }
+
+        /* Específico para o tooltip do botão de excluir */
+        .delete-button[data-tooltip]:before,
+        .delete-button[data-tooltip]:after {
+            left: auto;
+            right: 0;
+            transform: translateX(0);
         }
 
         button {
@@ -513,18 +541,9 @@ body {
             align-items: center;
             justify-content: center;
             position: relative;
-            /* Importante para o posicionamento do tooltip */
 
             &:hover {
                 transform: scale(1.2);
-            }
-
-            /* Garante que o tooltip não seja cortado */
-            &[data-tooltip]:before,
-            &[data-tooltip]:after {
-                right: auto;
-                left: 50%;
-                transform: translateX(-50%);
             }
 
             &.edit-button {
@@ -542,19 +561,6 @@ body {
 
                 &:hover {
                     color: darken(#c53030, 10%);
-                }
-
-                /* Ajuste específico para o tooltip do botão de excluir */
-                &[data-tooltip]:before {
-                    right: -10px;
-                    left: auto;
-                    transform: translateX(0);
-                }
-
-                &[data-tooltip]:after {
-                    right: 8px;
-                    left: auto;
-                    transform: translateX(0);
                 }
             }
         }
@@ -648,46 +654,42 @@ body {
 [data-tooltip] {
     position: relative;
 
+    &:hover:before,
+    &:hover:after {
+        display: block;
+    }
+
     &:before,
     &:after {
+        display: none;
         position: absolute;
-        opacity: 0;
-        visibility: hidden;
-        transition: all $transition-speed;
         pointer-events: none;
-        bottom: 130%;
-        /* Posicionado bem acima do elemento */
-        z-index: 100;
+        z-index: 1000;
     }
 
     &:before {
         content: attr(data-tooltip);
-        background-color: rgba(0, 0, 0, 0.8);
+        background-color: rgba(0, 0, 0, 0.85);
         color: white;
-        padding: 6px 12px;
-        border-radius: 4px;
-        font-size: 0.8rem;
+        padding: 8px 12px;
+        border-radius: 5px;
+        font-size: 0.85rem;
         white-space: nowrap;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        bottom: 100%;
         left: 50%;
         transform: translateX(-50%);
-        margin-bottom: 8px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        margin-bottom: 10px;
     }
 
     &:after {
         content: '';
-        border-left: 6px solid transparent;
-        border-right: 6px solid transparent;
-        border-top: 6px solid rgba(0, 0, 0, 0.8);
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        border-top: 8px solid rgba(0, 0, 0, 0.85);
+        bottom: 100%;
         left: 50%;
         transform: translateX(-50%);
-        bottom: 123%;
-        /* Ajustado para conectar corretamente com o tooltip */
-    }
-
-    &:hover:before,
-    &:hover:after {
-        opacity: 1;
-        visibility: visible;
+        margin-bottom: 2px;
     }
 }
