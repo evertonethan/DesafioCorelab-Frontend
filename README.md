@@ -1,46 +1,138 @@
-# Getting Started with Create React App
+# CoreNotes Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![SASS](https://img.shields.io/badge/SASS-CC6699?style=for-the-badge&logo=sass&logoColor=white)
+![Axios](https://img.shields.io/badge/Axios-5A29E4?style=for-the-badge&logo=axios&logoColor=white)
+![React Icons](https://img.shields.io/badge/React_Icons-61DAFB?style=for-the-badge&logo=react&logoColor=black)
 
-## Available Scripts
+## 📋 Descrição
 
-In the project directory, you can run:
+Frontend do desafio Corelab Challenge - Uma aplicação de gerenciamento de tarefas (to-do list) com funcionalidades avançadas como favoritar itens e personalizar cores.
 
-### `npm start`
+A interface é responsiva e visualmente atraente, permitindo aos usuários filtrar por itens favoritos e por cor, exibindo os favoritos sempre no topo da lista.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## 🚀 Recursos
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- **Criar, Ler, Atualizar e Deletar** tarefas
+- **Favoritar** itens (exibidos prioritariamente no topo)
+- **Personalizar cores** para cada tarefa
+- **Filtrar** tarefas por texto
+- **Visualização responsiva** para dispositivos móveis e desktop
+- **Interface amigável** com design moderno
 
-### `npm test`
+## 🛠️ Tecnologias
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- **React**: Biblioteca JavaScript para construção de interfaces
+- **TypeScript**: Superset tipado do JavaScript para melhor escalabilidade
+- **SASS**: Pré-processador CSS para estilos mais organizados
+- **Axios**: Cliente HTTP para comunicação com a API
+- **React Icons**: Biblioteca de ícones para React
 
-### `npm run build`
+## 📦 Instalação
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Certifique-se de ter o Node.js (versão >=16.15.0) e NPM (>=8.5.5) instalados.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1. Clone o repositório:
+```bash
+git clone https://github.com/evertonethan/DesafioCorelab-Frontend.git
+cd corelab-challenge-frontend
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+2. Instale as dependências:
+```bash
+npm install
+```
 
-### `npm run eject`
+3. Configure a conexão com o backend:
+Por padrão, a aplicação se conecta à API em `http://localhost:3001`. Caso precise alterar, edite a URL base no arquivo `src/App.tsx`.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+4. Inicie a aplicação:
+```bash
+npm start
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+5. A aplicação estará disponível em:
+```
+http://localhost:3000
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## 🎨 Customização de Cores
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+A aplicação usa uma paleta de cores pastel configurável. As cores disponíveis são:
 
-## Learn More
+```typescript
+const colorOptions: string[] = [
+  '#E2FFFA', // Verde-água bem claro
+  '#FEE3E3', // Rosado claro
+  '#FFE2C3', // Laranja claro
+  '#D1F1FF', // Azul claro
+  '#E5D4FE', // Roxo claro
+  '#F2F1B9', // Amarelo clarinho
+  '#FFD1F1', // Rosa clarinho
+  '#FFC0B3', // Coral
+  '#F4F4F4', // Cinza bem claro
+  '#EAEAEA', // Cinza claro
+  '#BCBCBC', // Cinza médio
+  '#E0C28B', // Bege/dourado
+];
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Você pode personalizar esta paleta editando o array `colorOptions` no arquivo `src/App.tsx`.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## 📱 Responsividade
+
+A aplicação é totalmente responsiva, adaptando-se a diferentes tamanhos de tela:
+
+- **Desktop**: Exibição em grid com múltiplos cards por linha
+- **Mobile**: Exibição em coluna única para melhor visualização em telas pequenas
+
+A responsividade é gerenciada através de media queries no arquivo `src/App.scss`.
+
+## 🧪 Estrutura do Projeto
+
+```
+frontend/
+  ├─ public/
+  ├─ src/
+  │   ├─ App.tsx        # Componente principal
+  │   ├─ App.scss       # Estilos da aplicação
+  │   ├─ index.tsx      # Ponto de entrada
+  │   └─ react-app-env.d.ts
+  ├─ package.json
+  ├─ tsconfig.json
+  └─ README.md
+```
+
+## 🔄 Comunicação com o Backend
+
+A comunicação com a API é feita através do Axios. O frontend se conecta aos seguintes endpoints:
+
+- `GET /api/notes`: Busca todas as notas
+- `POST /api/notes`: Cria uma nova nota
+- `PUT /api/notes/:id`: Atualiza uma nota existente
+- `DELETE /api/notes/:id`: Remove uma nota
+
+## 📋 Requisitos do Projeto
+
+- Node.js: ^16.15.0
+- NPM: ^8.5.5
+- React com TypeScript
+- Layout responsivo
+- Abordagem Mobile First
+
+## 🚧 Possíveis Melhorias
+
+- Implementar autenticação de usuários
+- Adicionar filtro por cores
+- Incluir sistema de tags
+- Implementar testes automatizados
+- Adicionar funcionalidade de arrastar e soltar (drag and drop) para reordenar notas
+
+## 📄 Licença
+
+Este projeto está sob a licença MIT. Veja o arquivo LICENSE para mais detalhes.
+
+---
+
+Desenvolvido para teste da Corelab Challenge 🚀
