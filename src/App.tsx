@@ -1,7 +1,27 @@
-import React, { useEffect, useState, useRef, useCallback } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
-import { FaStar, FaRegStar, FaTrashAlt, FaPalette, FaPlus, FaSearch, FaTimes, FaPencilAlt } from 'react-icons/fa';
+// Importa os ícones com alias
+import {
+  FaStar as _FaStar,
+  FaRegStar as _FaRegStar,
+  FaTrashAlt as _FaTrashAlt,
+  FaPalette as _FaPalette,
+  FaPlus as _FaPlus,
+  FaSearch as _FaSearch,
+  FaTimes as _FaTimes,
+  FaPencilAlt as _FaPencilAlt,
+} from 'react-icons/fa';
 import './App.scss';
+
+// Define os ícones com tipos explícitos
+const FaStar = _FaStar as React.FC<React.SVGProps<SVGSVGElement>>;
+const FaRegStar = _FaRegStar as React.FC<React.SVGProps<SVGSVGElement>>;
+const FaTrashAlt = _FaTrashAlt as React.FC<React.SVGProps<SVGSVGElement>>;
+const FaPalette = _FaPalette as React.FC<React.SVGProps<SVGSVGElement>>;
+const FaPlus = _FaPlus as React.FC<React.SVGProps<SVGSVGElement>>;
+const FaSearch = _FaSearch as React.FC<React.SVGProps<SVGSVGElement>>;
+const FaTimes = _FaTimes as React.FC<React.SVGProps<SVGSVGElement>>;
+const FaPencilAlt = _FaPencilAlt as React.FC<React.SVGProps<SVGSVGElement>>;
 
 interface Note {
   id: number;
@@ -44,7 +64,7 @@ function App() {
     fetchNotes();
   }, []);
 
-  // Efeito para fechar o formulário quando clicado fora dele
+  // Fecha o formulário quando clicado fora dele
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (formRef.current && !formRef.current.contains(event.target as Node) && showNewNoteForm) {
@@ -53,9 +73,7 @@ function App() {
     };
 
     document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [showNewNoteForm]);
 
   // Limpa mensagens de erro/sucesso após 3 segundos
@@ -65,7 +83,6 @@ function App() {
         setErrorMessage('');
         setSuccessMessage('');
       }, 3000);
-
       return () => clearTimeout(timer);
     }
   }, [errorMessage, successMessage]);
@@ -88,24 +105,17 @@ function App() {
       setErrorMessage('O título não pode estar vazio');
       return;
     }
-
     try {
       const response = await axios.post<Note>('http://localhost:3001/api/notes', {
         title,
         content,
         color: selectedColor,
       });
-
-      // Adiciona a nova nota com efeito de animação
       setNotes((prev) => [response.data, ...prev]);
-
-      // Limpa o formulário
       setTitle('');
       setContent('');
       setSelectedColor(colorOptions[0]);
       setShowNewNoteForm(false);
-
-      // Mensagem de sucesso
       setSuccessMessage('Nota criada com sucesso!');
     } catch (error) {
       console.error('Erro ao criar nota:', error);
@@ -115,13 +125,10 @@ function App() {
 
   const updateNote = async (note: Note, debounced = true) => {
     try {
-      // Se for chamada debounced, atualiza apenas o estado local
-      // A atualização real no backend será feita pelo useEffect com debounce
       if (debounced) {
         setNotes((prev) => prev.map((n) => (n.id === note.id ? note : n)));
       } else {
         await axios.put(`http://localhost:3001/api/notes/${note.id}`, note);
-        // Atualiza a lista local
         setNotes((prev) => prev.map((n) => (n.id === note.id ? note : n)));
       }
     } catch (error) {
@@ -153,14 +160,10 @@ function App() {
   };
 
   const toggleEditMode = (noteId: number) => {
-    if (editingNoteId === noteId) {
-      setEditingNoteId(null);
-    } else {
-      setEditingNoteId(noteId);
-    }
+    setEditingNoteId(editingNoteId === noteId ? null : noteId);
   };
 
-  // Filtra notas pelo termo de busca (no título ou conteúdo)
+  // Filtra notas pelo termo de busca
   const filteredNotes = notes.filter((note) => {
     const lowerSearch = searchTerm.toLowerCase();
     return (
@@ -169,19 +172,13 @@ function App() {
     );
   });
 
-  // Separa favoritos e não-favoritos
   const favoriteNotes = filteredNotes.filter((note) => note.is_favorite);
   const otherNotes = filteredNotes.filter((note) => !note.is_favorite);
 
   const renderNoteCard = (note: Note) => {
     const isEditing = editingNoteId === note.id;
-
     return (
-      <div
-        key={note.id}
-        className="note-card fade-in"
-        style={{ backgroundColor: note.color }}
-      >
+      <div key={note.id} className="note-card fade-in" style={{ backgroundColor: note.color }}>
         <div className="note-header">
           <input
             type="text"
@@ -192,7 +189,7 @@ function App() {
           />
           <button
             onClick={() => toggleFavorite(note)}
-            data-tooltip={note.is_favorite ? "Remover dos favoritos" : "Adicionar aos favoritos"}
+            data-tooltip={note.is_favorite ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}
           >
             {note.is_favorite ? <FaStar color="#ffc107" /> : <FaRegStar />}
           </button>
@@ -208,7 +205,7 @@ function App() {
             <button
               className="edit-button"
               onClick={() => toggleEditMode(note.id)}
-              data-tooltip={isEditing ? "Concluir edição" : "Editar nota"}
+              data-tooltip={isEditing ? 'Concluir edição' : 'Editar nota'}
             >
               <FaPencilAlt />
             </button>
@@ -220,7 +217,7 @@ function App() {
                     key={color}
                     className="color-circle"
                     style={{ backgroundColor: color }}
-                    onClick={() => updateNote({ ...note, color: color })}
+                    onClick={() => updateNote({ ...note, color })}
                   />
                 ))}
               </div>
@@ -240,7 +237,7 @@ function App() {
 
   return (
     <div className="app-container">
-      {/* Navbar com título e busca */}
+      {/* Navbar */}
       <nav className="navbar">
         <div className="navbar-content">
           <div className="logo-container">
@@ -249,7 +246,9 @@ function App() {
               alt="Logo"
               className="navbar-logo-image"
             />
-            <h1 className="logo"><span>Core</span>Notes</h1>
+            <h1 className="logo">
+              <span>Core</span>Notes
+            </h1>
           </div>
           <div className="search-container">
             <FaSearch className="search-icon" />
@@ -269,12 +268,9 @@ function App() {
       </nav>
 
       <div className="main-content">
-        {/* Botão para adicionar nova nota */}
+        {/* Botão para nova nota */}
         {!showNewNoteForm && (
-          <button
-            className="add-note-button"
-            onClick={() => setShowNewNoteForm(true)}
-          >
+          <button className="add-note-button" onClick={() => setShowNewNoteForm(true)}>
             <FaPlus /> Nova Nota
           </button>
         )}
@@ -318,7 +314,7 @@ function App() {
           </div>
         )}
 
-        {/* Mensagens de erro e sucesso */}
+        {/* Mensagens */}
         {errorMessage && <div className="error-message">{errorMessage}</div>}
         {successMessage && <div className="success-message">{successMessage}</div>}
 
@@ -333,20 +329,19 @@ function App() {
             {favoriteNotes.length > 0 && (
               <section>
                 <h2>Favoritos</h2>
-                <div className="notes-grid">
-                  {favoriteNotes.map(renderNoteCard)}
-                </div>
+                <div className="notes-grid">{favoriteNotes.map(renderNoteCard)}</div>
               </section>
             )}
-
             {/* Notas não-favoritas */}
             <section>
-              <h2>{otherNotes.length === 0 && favoriteNotes.length === 0
-                ? 'Nenhuma nota encontrada'
-                : favoriteNotes.length > 0 ? 'Outros' : 'Notas'}</h2>
-              <div className="notes-grid">
-                {otherNotes.map(renderNoteCard)}
-              </div>
+              <h2>
+                {otherNotes.length === 0 && favoriteNotes.length === 0
+                  ? 'Nenhuma nota encontrada'
+                  : favoriteNotes.length > 0
+                    ? 'Outros'
+                    : 'Notas'}
+              </h2>
+              <div className="notes-grid">{otherNotes.map(renderNoteCard)}</div>
             </section>
           </div>
         )}
